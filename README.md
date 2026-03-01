@@ -1,4 +1,19 @@
-RentalApp
-Java console application for vehicle rental management
+# RentalApp 🚗
 
-As part of my studies at DHBW Mannheim, I developed the RentalApp, a Java console program for managing customers and vehicles (cars, electric cars, motorcycles). The focus was on object-oriented programming with inheritance, interfaces, and comparators. The app includes functions to add, edit, delete, search, and sort data, as well as an interactive rental and return process with protocols. Reporting features show rental statistics, number of vehicles by type, and total vehicle value, with export to text files. It also supports admin login, test data loading without duplicates, and a reset option. This project gave me practical experience with Java collections, software design, and structured console-based user interfaces.
+A Java console application for managing customers and vehicles,
+developed as part of my studies at DHBW Mannheim.
+
+## Tech Stack
+- **Language:** Java
+- **Concepts:** OOP, Inheritance, Interfaces, Comparators, Collections
+
+## Features
+- Add, edit, delete, search and sort customers & vehicles (cars, electric cars, motorcycles)
+- Interactive rental and return process with protocols
+- Reporting: rental statistics, vehicle count by type, total vehicle value
+- Export reports to text files
+- Admin login & test data loading without duplicates
+- Reset option
+
+## Status
+✅ Completed – DHBW Semester 2
