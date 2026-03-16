@@ -45,14 +45,92 @@ de.s242010.vehicle/
 
 ---
 
-## Class hierarchy
+## System design
 
 ```
-Rentable  (abstract)
-└── Vehicle
-    ├── Car
-    │   └── ElectricCar
-    └── Motorcycle
+┌─────────────────────────────────────────────────────────────────┐
+│                         RentalApp.java                          │
+│                     (main class / controller)                   │
+│                                                                 │
+│   ┌─────────────┐   login    ┌──────────────────────────────┐   │
+│   │    User     │ ─────────► │  isAdmin?                    │   │
+│   │  (console)  │            │  ├─ yes → full menu (16 ops) │   │
+│   └─────────────┘            │  └─ no  → read-only menu     │   │
+│          │                   └──────────────────────────────┘   │
+│          │ input/output                  │                       │
+│          ▼                              ▼                        │
+│   ┌─────────────┐         ┌─────────────────────────┐           │
+│   │   Scanner   │         │   ArrayList<Rentable>   │ vehicles  │
+│   │  (stdin)    │         │   ArrayList<Customer>   │ customers │
+│   └─────────────┘         └─────────────────────────┘           │
+│                                         │                        │
+│                              export ▼   │ ▼ sort                 │
+│                         ┌──────────┐  ┌─────────────────────┐   │
+│                         │export/   │  │  Comparators        │   │
+│                         │export.txt│  │  ├─ by value        │   │
+│                         └──────────┘  │  ├─ by manufacturer │   │
+│                                       │  ├─ by mileage      │   │
+│                                       │  └─ by rental status│   │
+│                                       └─────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+```
+                        CLASS HIERARCHY
+                        ──────────────
+
+              ┌──────────────────────────────┐
+              │         Rentable             │  << abstract >>
+              │──────────────────────────────│
+              │ - id: int (auto)             │
+              │ - description: String        │
+              │ - isRented: boolean          │
+              │ - value: double              │
+              │ - customer: Customer         │
+              └──────────────┬───────────────┘
+                             │ extends
+              ┌──────────────▼───────────────┐
+              │           Vehicle            │
+              │──────────────────────────────│
+              │ - vin: String (final)        │
+              │ - licensePlate: String       │
+              │ - mileage: int               │
+              │ - manufacturer: String       │
+              │ - model: String              │
+              │ - fuelType: String           │
+              │ - power: int                 │
+              │ - countCylinders: int        │
+              └──────┬───────────────┬───────┘
+                     │               │ extends
+               extends               │
+         ┌─────▼──────────┐   ┌──────▼──────────────┐
+         │      Car        │   │     Motorcycle       │
+         │────────────────│   │─────────────────────│
+         │ (no new fields) │   │ - bikeType: String  │
+         └────────┬────────┘   │ - bikeBoost: double │
+                  │ extends    └─────────────────────┘
+         ┌────────▼──────────────┐
+         │      ElectricCar      │
+         │───────────────────────│
+         │ - batteryCapacity: kWh│
+         │ - chargingPower: kW   │
+         └───────────────────────┘
+
+
+              ┌───────────────────────┐
+              │       Customer        │
+              │───────────────────────│
+              │ - id: int (auto)      │
+              │ - name: String        │
+              │ - email: String       │
+              │ - street: String      │
+              │ - zipcode: String     │
+              │ - city: String        │
+              │ - country: String     │
+              └───────────────────────┘
+                        ▲
+                        │ referenced by
+                   Vehicle.currentCustomer
 ```
 
 `Rentable` is the top-level abstract class — it handles the shared stuff: unique ID (auto-incremented), description, value, rental status, and the customer reference. `Vehicle` extends it with everything vehicle-specific (VIN, license plate, mileage, etc.). From there, `Car`, `ElectricCar`, and `Motorcycle` each add their own type-specific fields.
