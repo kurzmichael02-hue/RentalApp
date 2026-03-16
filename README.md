@@ -1,4 +1,4 @@
-# RentalApp 🚗
+# RentalApp 
 
 A Java console application for managing customers and vehicles,
 developed as part of my studies at DHBW Mannheim.
